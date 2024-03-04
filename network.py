@@ -21,7 +21,7 @@ class Network1(nn.Module):
     x = nn.functional.sigmoid(x)
     return x
   
-# 3 fully connected layers with ReLU activation
+# 3 fully connected layers with ReLU activation.
 class Network2(nn.Module):
   def __init__(self):
     super(Network2, self).__init__()

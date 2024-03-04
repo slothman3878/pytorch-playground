@@ -4,9 +4,13 @@ import torch.utils.data.sampler as sampler
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 
-def load_data(batch_size=100):
+def load_data(batch_size=100, flipped=False):
     train_dataset = datasets.MNIST(root='./data', train=True, transform=transforms.ToTensor(), download=True)
     test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
+
+    if flipped:
+        train_dataset = list(map(lambda x: (abs(1-x[0]), x[1]), train_dataset))
+        test_dataset = list(map(lambda x: (abs(1-x[0]), x[1]), test_dataset))
 
     train_loader = data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
 
