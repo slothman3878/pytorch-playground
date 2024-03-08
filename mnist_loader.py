@@ -4,13 +4,16 @@ import torch.utils.data.sampler as sampler
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 
-def load_data(batch_size=100, flipped=False, outline=False):
+def load_data(batch_size=100, flipped=False, outline=False, normalize=False):
     train_dataset = datasets.MNIST(root='./data', train=True, transform=transforms.ToTensor(), download=True)
     test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
 
     if flipped:
         train_dataset = list(map(lambda x: (abs(1-x[0]), x[1]), train_dataset))
         test_dataset = list(map(lambda x: (abs(1-x[0]), x[1]), test_dataset))
+    if normalize:
+        train_dataset = list(map(lambda x: (x[0]-.5, x[1]), train_dataset))
+        test_dataset = list(map(lambda x: (x[0]-.5, x[1]), test_dataset))
     if outline:
         train_dataset = list(map(lambda x: (1-(abs(.5-x[0]) * 2), x[1]), train_dataset))
         test_dataset = list(map(lambda x: (1-(abs(.5-x[0]) * 2), x[1]), test_dataset))
